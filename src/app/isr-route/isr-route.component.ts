@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, PLATFORM_ID, Inject } from '@angular/core';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
+import { makeStateKey, Title, TransferState } from '@angular/platform-browser';
 
 const stateKey = makeStateKey<number>('random');
 
@@ -11,8 +11,8 @@ const stateKey = makeStateKey<number>('random');
 })
 export class IsrRouteComponent {
   random: number;
-
-  constructor(transferState: TransferState, @Inject(PLATFORM_ID) id: string) {
+  title = "dddd"
+  constructor(private titleService:Title, transferState: TransferState, @Inject(PLATFORM_ID) id: string) {
     // Angular Universal does not have a hydration mechanism yet to preserve initial values,
     // so we do a poor man's version here to showcase ISR in fact works.
     if (isPlatformBrowser(id)) {
@@ -21,5 +21,7 @@ export class IsrRouteComponent {
       this.random = Math.random();
       transferState.set(stateKey, this.random);
     }
+
+    this.titleService.setTitle(this.title);
   }
 }
